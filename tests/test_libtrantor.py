@@ -45,16 +45,16 @@ def test_parse():
         'pdop': 0, 'satellites': 0, 'speed': 0, 'tdop': 0, 'temperature': 0,
         'timestamp': 16777472, 'vdop': 0}
     expected_data_2 = {
-        'acc_x': 0, 'acc_y': 1, 'acc_z': 1, 'barometer': 256, 'course': 0,
-        'elevation': 0, 'fix': 0, 'geoid_height': 0, 'giroscope_x': 256,
-        'giroscope_y': 0, 'giroscope_z': 0, 'hdop': 0, 'lat': -0.01, 'lon': 0.0,
-        'magnetometer_x': 0, 'magnetometer_y': 0, 'magnetometer_z': 0, 'pdop': 0,
-        'satellites': 0, 'speed': 0, 'tdop': 0, 'temperature': 0,
-        'timestamp': 16777472, 'vdop': 0}
+        'acc_x': 0, 'acc_y': 0, 'acc_z': 0, 'barometer': 0, 'course': 0,
+        'elevation': 1, 'fix': 0, 'geoid_height': 1, 'giroscope_x': 0,
+        'giroscope_y': 0, 'giroscope_z': 0, 'hdop': 1, 'lat': 0.00, 'lon': 0.0,
+        'magnetometer_x': 0, 'magnetometer_y': 1, 'magnetometer_z': 1, 'pdop': 0,
+        'satellites': 1, 'speed': 0, 'tdop': 0, 'temperature': 1,
+        'timestamp': 0, 'vdop': 0}
     parsed = list(parse(binary_data))
     assert len(parsed) == 2
     assert parsed[0] == expected_data_1
-    assert parsed[0] == expected_data_2
+    assert parsed[1] == expected_data_2
 
 
 def test_build():

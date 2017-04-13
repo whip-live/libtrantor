@@ -67,7 +67,7 @@ def build(timestamp, lat, lon, course, geoid_height, elevation, fix,
           barometer, giroscope_x, giroscope_y, giroscope_z, magnetometer_x,
           magnetometer_y, magnetometer_z, temperature):
     """
-    Builds tha binary representation given the data
+    Builds the binary representation given the data
     """
     # First transform lat and lon into two dictionaries with sign,
     # exponent and mantissa
