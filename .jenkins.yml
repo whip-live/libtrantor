@@ -1,0 +1,10 @@
+version: "2"
+
+services:
+  tests:
+    image: evonove/ci:3.0
+    command: tox -r --workdir=/tmp/.toxtrantor-${RANDOM_WD}
+    volumes_from:
+      - container:jenkins-data
+    environment:
+      - WORKSPACE
