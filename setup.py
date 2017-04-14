@@ -1,9 +1,6 @@
-from setuptools import setup, find_packages
+#!/usr/bin/env python
+
+from setuptools import setup
 
 
-setup(
-    name='trantor',
-    version='0.1',
-    packages=find_packages(exclude=['tests*']),
-    install_requires=['construct'],
-)
+setup()

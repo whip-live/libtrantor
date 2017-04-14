@@ -2,7 +2,10 @@ from trantor.format import _make_float, _frexp10
 from trantor import parse, build
 
 
-def test_split_float():
+def test_frexp10():
+    """
+    Test that the _frexp10 method returns the desired tuples
+    """
     assert _frexp10(0) == (0, 0, 0)
     assert _frexp10(1.2) == (0, 1, 12)
     assert _frexp10(10.23) == (0, 2, 1023)
@@ -12,6 +15,9 @@ def test_split_float():
 
 
 def test_make_float():
+    """
+    Test that the make_float method returns the desired value
+    """
     assert _make_float(0, 0, 0) == 0
     assert _make_float(0, 1, 12) == 1.2
     assert _make_float(1, 1, 123) == -12.3
@@ -20,6 +26,9 @@ def test_make_float():
 
 
 def test_make_float_frexp():
+    """
+    Test that the two functions give consistent results
+    """
     number = -12.423456
     repr = (1, 6, 12423456)
     assert number == _make_float(*repr)
@@ -27,6 +36,9 @@ def test_make_float_frexp():
 
 
 def test_parse():
+    """
+    Test parsing real world examples of binary data
+    """
     binary_data = b'\x01\x00\x01\x00\xa0\x00\x00\x01\x00\x00\x00\x00'\
                   b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
                   b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01'\
@@ -58,6 +70,9 @@ def test_parse():
 
 
 def test_build():
+    """
+    Test building real world examples of binary data
+    """
     data = {
         'acc_x': 0, 'acc_y': 1, 'acc_z': 1, 'barometer': 256, 'course': 0,
         'elevation': 0, 'fix': 0, 'geoid_height': 0, 'giroscope_x': 256,
@@ -75,6 +90,9 @@ def test_build():
 
 
 def test_both():
+    """
+    Test that parsed built data returns the original value
+    """
     data = {
         'acc_x': 12, 'acc_y': 13, 'acc_z': 1, 'barometer': 25, 'course': 243,
         'elevation': 43, 'fix': 0, 'geoid_height': 12, 'giroscope_x': 256,
