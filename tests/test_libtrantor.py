@@ -1,54 +1,22 @@
-from trantor.format import _make_float, _frexp10
 from trantor import parse, build
-
-
-def test_frexp10():
-    """
-    Test that the _frexp10 method returns the desired tuples
-    """
-    assert _frexp10(0) == (0, 0, 0)
-    assert _frexp10(1.2) == (0, 1, 12)
-    assert _frexp10(10.23) == (0, 2, 1023)
-    assert _frexp10(42.4242) == (0, 4, 424242)
-    assert _frexp10(-90.234143) == (1, 6, 90234143)
-    assert _frexp10(-0.232434143) == (1, 9, 232434143)
-
-
-def test_make_float():
-    """
-    Test that the make_float method returns the desired value
-    """
-    assert _make_float(0, 0, 0) == 0
-    assert _make_float(0, 1, 12) == 1.2
-    assert _make_float(1, 1, 123) == -12.3
-    assert _make_float(1, 4, 4124) == -0.4124
-    assert _make_float(0, 0, 42424) == 42424
-
-
-def test_make_float_frexp():
-    """
-    Test that the two functions give consistent results
-    """
-    number = -12.423456
-    repr = (1, 6, 12423456)
-    assert number == _make_float(*repr)
-    assert repr == _frexp10(number)
 
 
 def test_parse():
     """
     Test parsing real world examples of binary data
     """
-    binary_data = b'\x01\x00\x01\x00\xa0\x00\x00\x01\x00\x00\x00\x00'\
-                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
-                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01'\
-                  b'\x00\x01\x00\x01\x00\x01\x00\x00\x00\x00\x00\x00'\
-                  b'\x00\x00\x00\x00\x00\x00\x00'\
-                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
-                  b'\x00\x00\x00\x01\x00\x01\x00\x01\x00\x01\x00\x00'\
-                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
-                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
-                  b'\x00\x00\x01\x00\x01\x00\x01'
+    binary_data = b'\x00\x00\x00\x00\x01\x00\x01\x00\xbf\x84z\xe1G\xae'\
+                  b'\x14{\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' \
+                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'  \
+                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'  \
+                  b'\x01\x00\x01\x00\x01\x00\x01\x00\x00\x00\x00\x00'  \
+                  b'\x00\x00\x00\x00\x00\x00\x00\x00'                  \
+                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'  \
+                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'  \
+                  b'\x00\x00\x00\x01\x00\x01\x00\x01\x00\x01\x00\x00'  \
+                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'  \
+                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'  \
+                  b'\x00\x00\x00\x00\x00\x00\x01\x00\x01\x00\x01'
     expected_data_1 = {
         'acc_x': 0, 'acc_y': 1, 'acc_z': 1, 'barometer': 256, 'course': 0,
         'elevation': 0, 'fix': 0, 'geoid_height': 0, 'giroscope_x': 256,
@@ -81,11 +49,12 @@ def test_build():
         'magnetometer_z': 0, 'pdop': 0, 'satellites': 0, 'speed': 0,
         'tdop': 0, 'temperature': 0, 'timestamp': 16777472, 'vdop': 0}
     built = build(**data)
-    binary_data = b'\x01\x00\x01\x00\x90\x00\x00\x01\x10\x00\x00\x00'\
+    binary_data = b'\x00\x00\x00\x00\x01\x00\x01\x00\xbf\xb9\x99\x99'\
+                  b'\x99\x99\x99\x9a\x00\x00\x00\x00\x00\x00\x00\x00'\
                   b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
-                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01'\
-                  b'\x00\x01\x00\x01\x00\x01\x00\x00\x00\x00\x00\x00'\
-                  b'\x00\x00\x00\x00\x00\x00\x00'
+                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
+                  b'\x00\x00\x00\x01\x00\x01\x00\x01\x00\x01\x00\x00'\
+                  b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
     assert built == binary_data
 
 
