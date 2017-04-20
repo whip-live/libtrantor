@@ -1,9 +1,9 @@
-from construct import Struct, Long, Short, Int24ub, Byte, Double
+from construct import Struct, Int, Short, Int24ub, Byte, Double
 
 
 # A recording line
 RecordingLine = Struct(
-    'timestamp' / Long,
+    'timestamp' / Int,
     'lat' / Double,
     'lon' / Double,
     'course' / Short,
@@ -15,7 +15,7 @@ RecordingLine = Struct(
     'vdop' / Short,
     'pdop' / Short,
     'tdop' / Short,
-    'speed' / Long,
+    'speed' / Int,
     'acc_x' / Short,
     'acc_y' / Short,
     'acc_z' / Short,
