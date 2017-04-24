@@ -1,4 +1,5 @@
 from construct import Struct, Int, Short, Int24ub, Byte, Double
+from datetime import datetime
 
 
 # A recording line
@@ -6,9 +7,9 @@ RecordingLine = Struct(
     'timestamp' / Int,
     'lat' / Double,
     'lon' / Double,
-    'course' / Short,
-    'geoid_height' / Short,
-    'elevation' / Short,
+    'course' / Int,
+    'geoid_height' / Int,
+    'elevation' / Int,
     'fix' / Byte,
     'satellites' / Byte,
     'hdop' / Short,
@@ -54,4 +55,8 @@ def parse(binary_data):
     """
     results = RecordingLine[:].parse(binary_data)
     for element in results:
-        yield dict(element)
+        row = dict(element)
+        # TODO: Fix starting time of the timestamp when we'll
+        #       have the configuration header
+        row['timestamp'] = datetime.fromtimestamp(row['timestamp'] / 10)
+        yield row
