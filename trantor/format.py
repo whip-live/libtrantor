@@ -38,6 +38,9 @@ def build(timestamp, lat, lon, course, geoid_height, elevation, fix,
     """
     Builds the binary representation given the data
     """
+    # We expect a timestamp, but we only need one decimal precision and
+    # we represent it as an integer
+    timestamp = int(timestamp * 10)
     return RecordingLine.build(dict(
         timestamp=timestamp, lat=lat, lon=lon, course=course,
         geoid_height=geoid_height, elevation=elevation, fix=fix,
