@@ -1,4 +1,5 @@
 from construct import Struct, Int, Short, Int24ub, Byte, Double
+from datetime import datetime
 
 
 # A recording line
@@ -37,9 +38,8 @@ def build(timestamp, lat, lon, course, geoid_height, elevation, fix,
     """
     Builds the binary representation given the data
     """
-    # We expect a timestamp, but we only need one decimal precision and
-    # we represent it as an integer
-    timestamp = int(timestamp * 10)
+    # Timestamp should be a datetime object
+    timestamp = int(timestamp.timestamp() * 10)
     return RecordingLine.build(dict(
         timestamp=timestamp, lat=lat, lon=lon, course=course,
         geoid_height=geoid_height, elevation=elevation, fix=fix,
@@ -60,5 +60,5 @@ def parse(binary_data):
         row = dict(element)
         # TODO: Fix starting time of the timestamp when we'll
         #       have the configuration header
-        row['timestamp'] /= 10
+        row['timestamp'] = datetime.fromtimestamp(row['timestamp'] / 10)
         yield row
