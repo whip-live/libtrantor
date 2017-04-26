@@ -1,5 +1,4 @@
 from construct import Struct, Int, Short, Int24ub, Byte, Double
-from datetime import datetime
 
 
 # A recording line
@@ -61,5 +60,5 @@ def parse(binary_data):
         row = dict(element)
         # TODO: Fix starting time of the timestamp when we'll
         #       have the configuration header
-        row['timestamp'] = datetime.fromtimestamp(row['timestamp'] / 10)
+        row['timestamp'] /= 10
         yield row
