@@ -39,7 +39,8 @@ def test_parse():
         'lon': 43.325, 'magnetometer_x': 2, 'magnetometer_y': 4,
         'magnetometer_z': 1, 'pdop': 0.01, 'satellites': 6, 'speed': 123,
         'timestamp': datetime(2017, 4, 27, 16, 8, 12, tzinfo=timezone.utc),
-        'tdop': 1, 'temperature': 4, 'vdop': 0.02, 'sequence_id': 1}
+        'tdop': 1, 'temperature': 4, 'vdop': 0.02, 'sequence_id': 1
+    }
     expected_data_2 = {
         'acc_x': 0, 'acc_y': 0, 'acc_z': 0, 'barometer': 0, 'course': 0,
         'elevation': 1, 'fix': 0, 'geoid_height': 1, 'giroscope_x': 0,
@@ -47,7 +48,8 @@ def test_parse():
         'magnetometer_x': 0, 'magnetometer_y': 1, 'magnetometer_z': 1, 'pdop': 0,
         'satellites': 1, 'speed': 0, 'tdop': 0, 'temperature': 1,
         'timestamp': datetime(2017, 4, 27, 16, 8, 22, tzinfo=timezone.utc),
-        'vdop': 0, 'sequence_id': 2}
+        'vdop': 0, 'sequence_id': 2
+    }
     parsed = parse(binary_data)
     assert parsed['timestamp'] == datetime(2017, 4, 27, 16, 7, 52, tzinfo=timezone.utc)
     assert parsed['gps_timestamp'] == datetime(2017, 4, 27, 16, 7, 52, tzinfo=timezone.utc)
@@ -75,7 +77,10 @@ def test_build():
                 'lon': 43.325, 'magnetometer_x': 2, 'magnetometer_y': 4,
                 'magnetometer_z': 1, 'pdop': 0.01, 'satellites': 6, 'speed': 123,
                 'tdop': 1, 'temperature': 4, 'timestamp': time2,
-                'vdop': 0.02, 'sequence_id': 1}]}
+                'vdop': 0.02, 'sequence_id': 1
+            }
+        ]
+    }
     built = build(**data)
     binary_data = b'V\x85\xc1\x80y@y="{BG\xb8\xf2f8F\xf3\xaa\x01V\x85\xc1\x80'\
                   b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
@@ -115,7 +120,10 @@ def test_both():
                 'lon': 43.123432, 'magnetometer_x': 4, 'magnetometer_y': 3,
                 'magnetometer_z': 12, 'pdop': 3, 'satellites': 6, 'speed': 2,
                 'tdop': 45, 'temperature': 12, 'timestamp': time2,
-                'vdop': 2, 'sequence_id': 1}]}
+                'vdop': 2, 'sequence_id': 1
+            }
+        ]
+    }
     # Make a deep copy of the data dict to avoid changing it
     binary = build(**data)
     assert data == parse(binary)
