@@ -57,6 +57,9 @@ def build(timestamp, gps_timestamp, segment_id, configuration, points):
     for point in points:
         # Timestamp should be a datetime object
         point['timestamp'] = int((point['timestamp'] - timestamp).total_seconds() * 1000)
+        point['hdop'] = int(point['hdop'] * 100)
+        point['pdop'] = int(point['pdop'] * 100)
+        point['vdop'] = int(point['vdop'] * 100)
         recording_lines += RecordingLine.build(point)
     return metadata + recording_lines
 
@@ -82,6 +85,9 @@ def parse(binary_data):
         row['timestamp'] = start_time + timedelta(milliseconds=row['timestamp'])
         # Add a sequence id, starting from 1
         row['sequence_id'] = i
+        row['hdop'] /= 100
+        row['pdop'] /= 100
+        row['vdop'] /= 100
         points.append(row)
 
     return {**parsed_metadata, 'points': points}
