@@ -38,7 +38,7 @@ def test_parse():
         'giroscope_y': 8, 'giroscope_z': 4, 'hdop': 2, 'lat': -12.1324,
         'lon': 43.325, 'magnetometer_x': 2, 'magnetometer_y': 4,
         'magnetometer_z': 1, 'pdop': 1, 'satellites': 6, 'speed': 123,
-        'timestamp': datetime(2017, 4, 27, 18, 8, 12, tzinfo=timezone.utc),
+        'timestamp': datetime(2017, 4, 27, 16, 8, 12, tzinfo=timezone.utc),
         'tdop': 1, 'temperature': 4, 'vdop': 2, 'sequence_id': 1}
     expected_data_2 = {
         'acc_x': 0, 'acc_y': 0, 'acc_z': 0, 'barometer': 0, 'course': 0,
@@ -46,7 +46,7 @@ def test_parse():
         'giroscope_y': 0, 'giroscope_z': 0, 'hdop': 1, 'lat': 0.00, 'lon': 0.0,
         'magnetometer_x': 0, 'magnetometer_y': 1, 'magnetometer_z': 1, 'pdop': 0,
         'satellites': 1, 'speed': 0, 'tdop': 0, 'temperature': 1,
-        'timestamp': datetime(2017, 4, 27, 18, 8, 22, tzinfo=timezone.utc),
+        'timestamp': datetime(2017, 4, 27, 16, 8, 22, tzinfo=timezone.utc),
         'vdop': 0, 'sequence_id': 2}
     parsed = parse(binary_data)
     assert parsed['timestamp'] == datetime(2017, 4, 27, 16, 7, 52, tzinfo=timezone.utc)
@@ -77,7 +77,8 @@ def test_build():
                 'tdop': 1, 'temperature': 4, 'timestamp': time2,
                 'vdop': 2, 'sequence_id': 1}]}
     built = build(**data)
-    binary_data = b'V\x85\xb3py@y="{BG\xb8\xf2f8F\xf3\xaa\x01V\x85\xb3p'\
+    print(built)
+    binary_data = b'V\x85\xc1\x80y@y="{BG\xb8\xf2f8F\xf3\xaa\x01V\x85\xc1\x80'\
                   b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
                   b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
                   b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
