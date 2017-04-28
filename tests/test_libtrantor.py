@@ -35,15 +35,15 @@ def test_parse():
     expected_data_1 = {
         'acc_x': 1, 'acc_y': 2, 'acc_z': 3, 'barometer': 256, 'course': 1,
         'elevation': 12, 'fix': 1, 'geoid_height': 2, 'giroscope_x': 256,
-        'giroscope_y': 8, 'giroscope_z': 4, 'hdop': 2, 'lat': -12.1324,
+        'giroscope_y': 8, 'giroscope_z': 4, 'hdop': 0.02, 'lat': -12.1324,
         'lon': 43.325, 'magnetometer_x': 2, 'magnetometer_y': 4,
-        'magnetometer_z': 1, 'pdop': 1, 'satellites': 6, 'speed': 123,
+        'magnetometer_z': 1, 'pdop': 0.01, 'satellites': 6, 'speed': 123,
         'timestamp': datetime(2017, 4, 27, 16, 8, 12, tzinfo=timezone.utc),
-        'tdop': 1, 'temperature': 4, 'vdop': 2, 'sequence_id': 1}
+        'tdop': 1, 'temperature': 4, 'vdop': 0.02, 'sequence_id': 1}
     expected_data_2 = {
         'acc_x': 0, 'acc_y': 0, 'acc_z': 0, 'barometer': 0, 'course': 0,
         'elevation': 1, 'fix': 0, 'geoid_height': 1, 'giroscope_x': 0,
-        'giroscope_y': 0, 'giroscope_z': 0, 'hdop': 1, 'lat': 0.00, 'lon': 0.0,
+        'giroscope_y': 0, 'giroscope_z': 0, 'hdop': 0.01, 'lat': 0.00, 'lon': 0.0,
         'magnetometer_x': 0, 'magnetometer_y': 1, 'magnetometer_z': 1, 'pdop': 0,
         'satellites': 1, 'speed': 0, 'tdop': 0, 'temperature': 1,
         'timestamp': datetime(2017, 4, 27, 16, 8, 22, tzinfo=timezone.utc),
@@ -71,11 +71,11 @@ def test_build():
             {
                 'acc_x': 1, 'acc_y': 2, 'acc_z': 3, 'barometer': 256, 'course': 1,
                 'elevation': 12, 'fix': 1, 'geoid_height': 2, 'giroscope_x': 256,
-                'giroscope_y': 8, 'giroscope_z': 4, 'hdop': 2, 'lat': -12.1324,
+                'giroscope_y': 8, 'giroscope_z': 4, 'hdop': 0.02, 'lat': -12.1324,
                 'lon': 43.325, 'magnetometer_x': 2, 'magnetometer_y': 4,
-                'magnetometer_z': 1, 'pdop': 1, 'satellites': 6, 'speed': 123,
+                'magnetometer_z': 1, 'pdop': 0.01, 'satellites': 6, 'speed': 123,
                 'tdop': 1, 'temperature': 4, 'timestamp': time2,
-                'vdop': 2, 'sequence_id': 1}]}
+                'vdop': 0.02, 'sequence_id': 1}]}
     built = build(**data)
     print(built)
     binary_data = b'V\x85\xc1\x80y@y="{BG\xb8\xf2f8F\xf3\xaa\x01V\x85\xc1\x80'\
