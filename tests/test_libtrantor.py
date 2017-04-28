@@ -77,7 +77,6 @@ def test_build():
                 'tdop': 1, 'temperature': 4, 'timestamp': time2,
                 'vdop': 0.02, 'sequence_id': 1}]}
     built = build(**data)
-    print(built)
     binary_data = b'V\x85\xc1\x80y@y="{BG\xb8\xf2f8F\xf3\xaa\x01V\x85\xc1\x80'\
                   b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
                   b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\
