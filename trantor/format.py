@@ -1,3 +1,4 @@
+import copy
 import uuid
 
 from construct import Struct, Int, Short, Int24ub, Byte, Double, BytesInteger
@@ -52,6 +53,7 @@ def build(timestamp, gps_timestamp, segment_id, configuration, points):
         segment_id=uuid.UUID(segment_id).int, configuration=configuration))
 
     recording_lines = b''
+    points = copy.deepcopy(points)
     for point in points:
         # Timestamp should be a datetime object
         point['timestamp'] = int((point['timestamp'] - timestamp).total_seconds() * 1000)

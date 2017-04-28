@@ -1,5 +1,3 @@
-import copy
-
 from trantor import parse, build
 from datetime import datetime, timedelta
 
@@ -118,5 +116,5 @@ def test_both():
                 'tdop': 45, 'temperature': 12, 'timestamp': time2,
                 'vdop': 2, 'sequence_id': 1}]}
     # Make a deep copy of the data dict to avoid changing it
-    binary = build(**copy.deepcopy(data))
+    binary = build(**data)
     assert data == parse(binary)
