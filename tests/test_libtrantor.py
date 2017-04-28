@@ -1,5 +1,5 @@
 from trantor import parse, build
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 def test_parse():
@@ -38,18 +38,19 @@ def test_parse():
         'giroscope_y': 8, 'giroscope_z': 4, 'hdop': 2, 'lat': -12.1324,
         'lon': 43.325, 'magnetometer_x': 2, 'magnetometer_y': 4,
         'magnetometer_z': 1, 'pdop': 1, 'satellites': 6, 'speed': 123,
-        'tdop': 1, 'temperature': 4, 'timestamp': datetime(2017, 4, 27, 18, 8, 12),
-        'vdop': 2, 'sequence_id': 1}
+        'timestamp': datetime(2017, 4, 27, 18, 8, 12, tzinfo=timezone.utc),
+        'tdop': 1, 'temperature': 4, 'vdop': 2, 'sequence_id': 1}
     expected_data_2 = {
         'acc_x': 0, 'acc_y': 0, 'acc_z': 0, 'barometer': 0, 'course': 0,
         'elevation': 1, 'fix': 0, 'geoid_height': 1, 'giroscope_x': 0,
         'giroscope_y': 0, 'giroscope_z': 0, 'hdop': 1, 'lat': 0.00, 'lon': 0.0,
         'magnetometer_x': 0, 'magnetometer_y': 1, 'magnetometer_z': 1, 'pdop': 0,
         'satellites': 1, 'speed': 0, 'tdop': 0, 'temperature': 1,
-        'timestamp': datetime(2017, 4, 27, 18, 8, 22), 'vdop': 0, 'sequence_id': 2}
+        'timestamp': datetime(2017, 4, 27, 18, 8, 22, tzinfo=timezone.utc),
+        'vdop': 0, 'sequence_id': 2}
     parsed = parse(binary_data)
-    assert parsed['timestamp'] == datetime(2017, 4, 27, 18, 7, 52)
-    assert parsed['gps_timestamp'] == datetime(2017, 4, 27, 18, 7, 52)
+    assert parsed['timestamp'] == datetime(2017, 4, 27, 16, 7, 52, tzinfo=timezone.utc)
+    assert parsed['gps_timestamp'] == datetime(2017, 4, 27, 16, 7, 52, tzinfo=timezone.utc)
     assert parsed['configuration'] == 0
     assert parsed['segment_id'] == '0c642c8d-0fa6-4077-a55c-5e3eda3d425a'
     assert len(parsed['points']) == 2
@@ -61,7 +62,7 @@ def test_build():
     """
     Test building real world examples of binary data
     """
-    time1 = datetime(2016, 1, 1)
+    time1 = datetime(2016, 1, 1, tzinfo=timezone.utc)
     time2 = time1 + timedelta(milliseconds=1231241)
     data = {
         'timestamp': time1, 'gps_timestamp': time1,
@@ -101,7 +102,7 @@ def test_both():
     """
     Test that parsed built data returns the original value
     """
-    time1 = datetime(2016, 1, 1)
+    time1 = datetime(2016, 1, 1, tzinfo=timezone.utc)
     time2 = time1 + timedelta(milliseconds=1231241)
     data = {
         'timestamp': time1, 'gps_timestamp': time1,

@@ -68,11 +68,11 @@ def parse(binary_data):
     metadata, recording_lines = binary_data[:128], binary_data[128:]
 
     parsed_metadata = MetaData.parse(metadata)
-    start_time = datetime.fromtimestamp(parsed_metadata['timestamp'])
+    start_time = datetime.fromtimestamp(parsed_metadata['timestamp'], tzinfo=timezone.utc)
 
     # Elaborate parsed_metadata
-    parsed_metadata['timestamp'] = datetime.fromtimestamp(parsed_metadata['timestamp'])
-    parsed_metadata['gps_timestamp'] = datetime.fromtimestamp(parsed_metadata['gps_timestamp'])
+    parsed_metadata['timestamp'] = datetime.fromtimestamp(parsed_metadata['timestamp'], tzinfo=timezone.utc)
+    parsed_metadata['gps_timestamp'] = datetime.fromtimestamp(parsed_metadata['gps_timestamp'], tzinfo=timezone.utc)
     parsed_metadata['segment_id'] = '%s' % uuid.UUID(int=parsed_metadata['segment_id'])
 
     parsed_recording_lines = RecordingLine[:].parse(recording_lines)
