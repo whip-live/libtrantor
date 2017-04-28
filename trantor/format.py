@@ -3,6 +3,7 @@ import uuid
 
 from construct import Struct, Int, Short, Int24ub, Byte, Double, BytesInteger
 from datetime import datetime, timedelta, timezone
+from decimal import Decimal
 
 
 # Metadata structure
@@ -57,9 +58,10 @@ def build(timestamp, gps_timestamp, segment_id, configuration, points):
     for point in points:
         # Timestamp should be a datetime object
         point['timestamp'] = int((point['timestamp'] - timestamp).total_seconds() * 1000)
-        point['hdop'] = int(point['hdop'] * 100)
-        point['pdop'] = int(point['pdop'] * 100)
-        point['vdop'] = int(point['vdop'] * 100)
+        # TODO: Maybe use some decimal method to cast to int
+        point['hdop'] = int(Decimal(point['hdop']) * 100)
+        point['pdop'] = int(Decimal(point['pdop']) * 100)
+        point['vdop'] = int(Decimal(point['vdop']) * 100)
         recording_lines += RecordingLine.build(point)
     return metadata + recording_lines
 
