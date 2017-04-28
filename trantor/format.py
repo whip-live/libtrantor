@@ -1,6 +1,16 @@
-from construct import Struct, Int, Short, Int24ub, Byte, Double
-from datetime import datetime
+import uuid
 
+from construct import Struct, Int, Short, Int24ub, Byte, Double, BytesInteger
+from datetime import datetime, timedelta
+
+
+# Metadata structure
+MetaData = Struct(
+    'timestamp' / Int,
+    'segment_id' / BytesInteger(16),
+    'gps_timestamp' / Int,
+    'configuration' / BytesInteger(104),
+)
 
 # A recording line
 RecordingLine = Struct(
@@ -28,37 +38,48 @@ RecordingLine = Struct(
     'magnetometer_y' / Short,
     'magnetometer_z' / Short,
     'temperature' / Short,
+    'sequence_id' / Int24ub,
 )
 
 
-def build(timestamp, lat, lon, course, geoid_height, elevation, fix,
-          satellites, hdop, vdop, pdop, tdop, speed, acc_x, acc_y, acc_z,
-          barometer, giroscope_x, giroscope_y, giroscope_z, magnetometer_x,
-          magnetometer_y, magnetometer_z, temperature):
+def build(timestamp, gps_timestamp, segment_id, configuration, points):
     """
     Builds the binary representation given the data
     """
-    # Timestamp should be a datetime object
-    timestamp = int(timestamp.timestamp() * 10)
-    return RecordingLine.build(dict(
-        timestamp=timestamp, lat=lat, lon=lon, course=course,
-        geoid_height=geoid_height, elevation=elevation, fix=fix,
-        satellites=satellites, hdop=hdop, vdop=vdop, pdop=pdop,
-        tdop=tdop, speed=speed, acc_x=acc_x, acc_y=acc_y, acc_z=acc_z,
-        barometer=barometer, giroscope_x=giroscope_x, giroscope_y=giroscope_y,
-        giroscope_z=giroscope_z, magnetometer_x=magnetometer_x,
-        magnetometer_y=magnetometer_y, magnetometer_z=magnetometer_z,
-        temperature=temperature))
+    metadata = MetaData.build(dict(
+        timestamp=int(timestamp.timestamp()),
+        gps_timestamp=int(gps_timestamp.timestamp()),
+        segment_id=uuid.UUID(segment_id).int, configuration=configuration))
+
+    recording_lines = b''
+    for point in points:
+        # Timestamp should be a datetime object
+        point['timestamp'] = int((point['timestamp'] - timestamp).total_seconds() * 1000)
+        recording_lines += RecordingLine.build(point)
+    return metadata + recording_lines
 
 
 def parse(binary_data):
     """
     Takes a binary string as input, parse it, and yields one result at a time
     """
-    results = RecordingLine[:].parse(binary_data)
-    for element in results:
+    metadata, recording_lines = binary_data[:128], binary_data[128:]
+
+    parsed_metadata = MetaData.parse(metadata)
+    start_time = datetime.fromtimestamp(parsed_metadata['timestamp'])
+
+    # Elaborate parsed_metadata
+    parsed_metadata['timestamp'] = datetime.fromtimestamp(parsed_metadata['timestamp'])
+    parsed_metadata['gps_timestamp'] = datetime.fromtimestamp(parsed_metadata['gps_timestamp'])
+    parsed_metadata['segment_id'] = '%s' % uuid.UUID(int=parsed_metadata['segment_id'])
+
+    parsed_recording_lines = RecordingLine[:].parse(recording_lines)
+    points = []
+    for i, element in enumerate(parsed_recording_lines, 1):
         row = dict(element)
-        # TODO: Fix starting time of the timestamp when we'll
-        #       have the configuration header
-        row['timestamp'] = datetime.fromtimestamp(row['timestamp'] / 10)
-        yield row
+        row['timestamp'] = start_time + timedelta(milliseconds=row['timestamp'])
+        # Add a sequence id, starting from 1
+        row['sequence_id'] = i
+        points.append(row)
+
+    return {**parsed_metadata, 'points': points}
