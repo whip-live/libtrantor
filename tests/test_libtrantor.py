@@ -33,20 +33,20 @@ def test_parse():
                   b'\x00\x00\x00\x01\x00\x01\x00\x01\x00\x00'\
                   b'\x02'
     expected_data_1 = {
-        'acc_x': 1, 'acc_y': 2, 'acc_z': 3, 'barometer': 256, 'course': 1,
-        'elevation': 12, 'fix': 1, 'geoid_height': 2, 'giroscope_x': 256,
+        'acc_x': 1, 'acc_y': 2, 'acc_z': 3, 'barometer': 256, 'course': 0.1,
+        'elevation': 1.2, 'fix': 1, 'geoid_height': 0.2, 'giroscope_x': 256,
         'giroscope_y': 8, 'giroscope_z': 4, 'hdop': 0.02, 'lat': -12.1324,
         'lon': 43.325, 'magnetometer_x': 2, 'magnetometer_y': 4,
-        'magnetometer_z': 1, 'pdop': 0.01, 'satellites': 6, 'speed': 123,
+        'magnetometer_z': 1, 'pdop': 0.01, 'satellites': 6, 'speed': 12.3,
         'timestamp': datetime(2017, 4, 27, 16, 8, 12, tzinfo=timezone.utc),
         'tdop': 1, 'temperature': 4, 'vdop': 0.02, 'sequence_id': 1
     }
     expected_data_2 = {
-        'acc_x': 0, 'acc_y': 0, 'acc_z': 0, 'barometer': 0, 'course': 0,
-        'elevation': 1, 'fix': 0, 'geoid_height': 1, 'giroscope_x': 0,
+        'acc_x': 0, 'acc_y': 0, 'acc_z': 0, 'barometer': 0, 'course': 0.0,
+        'elevation': 0.1, 'fix': 0, 'geoid_height': 0.1, 'giroscope_x': 0,
         'giroscope_y': 0, 'giroscope_z': 0, 'hdop': 0.01, 'lat': 0.00, 'lon': 0.0,
         'magnetometer_x': 0, 'magnetometer_y': 1, 'magnetometer_z': 1, 'pdop': 0,
-        'satellites': 1, 'speed': 0, 'tdop': 0, 'temperature': 1,
+        'satellites': 1, 'speed': 0.0, 'tdop': 0, 'temperature': 1,
         'timestamp': datetime(2017, 4, 27, 16, 8, 22, tzinfo=timezone.utc),
         'vdop': 0, 'sequence_id': 2
     }
@@ -71,11 +71,11 @@ def test_build():
         'segment_id': '7940793d-227b-4247-b8f2-663846f3aa01', 'configuration': 0,
         'points': [
             {
-                'acc_x': 1, 'acc_y': 2, 'acc_z': 3, 'barometer': 256, 'course': 1,
-                'elevation': 12, 'fix': 1, 'geoid_height': 2, 'giroscope_x': 256,
+                'acc_x': 1, 'acc_y': 2, 'acc_z': 3, 'barometer': 256, 'course': 0.1,
+                'elevation': 1.2, 'fix': 1, 'geoid_height': 0.2, 'giroscope_x': 256,
                 'giroscope_y': 8, 'giroscope_z': 4, 'hdop': 0.02, 'lat': -12.1324,
                 'lon': 43.325, 'magnetometer_x': 2, 'magnetometer_y': 4,
-                'magnetometer_z': 1, 'pdop': 0.01, 'satellites': 6, 'speed': 123,
+                'magnetometer_z': 1, 'pdop': 0.01, 'satellites': 6, 'speed': 12.3,
                 'tdop': 1, 'temperature': 4, 'timestamp': time2,
                 'vdop': 0.02, 'sequence_id': 1
             }
