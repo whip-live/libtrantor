@@ -59,13 +59,13 @@ def build(timestamp, gps_timestamp, segment_id, configuration, points):
         # Timestamp should be a datetime object
         point['timestamp'] = int((point['timestamp'] - timestamp).total_seconds() * 1000)
         # TODO: Maybe use some decimal method to cast to int
-        point['hdop'] = int(Decimal(point['hdop'] * 100).to_integral_value())
-        point['pdop'] = int(Decimal(point['pdop'] * 100).to_integral_value())
-        point['vdop'] = int(Decimal(point['vdop'] * 100).to_integral_value())
-        point['elevation'] = int(Decimal(point['elevation'] * 10).to_integral_value())
-        point['course'] = int(Decimal(point['course'] * 10).to_integral_value())
-        point['geoid_height'] = int(Decimal(point['geoid_height'] * 10).to_integral_value())
-        point['speed'] = int(Decimal(point['speed'] * 10).to_integral_value())
+        point['hdop'] = int((Decimal(point['hdop']) * 100).to_integral_value())
+        point['pdop'] = int((Decimal(point['pdop']) * 100).to_integral_value())
+        point['vdop'] = int((Decimal(point['vdop']) * 100).to_integral_value())
+        point['elevation'] = int((Decimal(point['elevation']) * 10).to_integral_value())
+        point['course'] = int((Decimal(point['course']) * 10).to_integral_value())
+        point['geoid_height'] = int((Decimal(point['geoid_height']) * 10).to_integral_value())
+        point['speed'] = int((Decimal(point['speed']) * 10).to_integral_value())
         recording_lines += RecordingLine.build(point)
     return metadata + recording_lines
 
